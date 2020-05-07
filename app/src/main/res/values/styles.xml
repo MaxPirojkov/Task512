@@ -1,0 +1,32 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorTextInVeiwNumb</item>
+    </style>
+
+    <style name="calc_button">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_margin">1dp</item>
+        <item name="android:background">@color/colorGreyBack</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:layout_weight">0.25</item>
+    </style>
+
+
+    <style name="btn_orange" >
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_margin">1dp</item>
+        <item name="android:background">@color/colorOrangeBack</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorTextOnOrange</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:layout_weight">0.25</item>
+    </style>
+</resources>
