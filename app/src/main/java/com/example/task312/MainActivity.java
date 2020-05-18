@@ -1,17 +1,11 @@
 package com.example.task312;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,30 +14,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+
+import static com.example.task312.SettingsActivity.RESULT_IMAGE;
+
 
 public class MainActivity extends AppCompatActivity {
 
     boolean add, sub, mul, div, percnt;
     float res1, res2;
 
+    final int REQUEST_PIC = 1;
+    public int res;
+    Bitmap bmp;
+
+    ImageView imageView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final TextView screen = findViewById(R.id.textViewNumb);
+        imageView = findViewById(R.id.imageView);
 
-        ImageView imageView = findViewById(R.id.imageView);
+//        startActivityForResult();
 
-        if(getIntent().hasExtra("byteArray")) {
-            ImageView previewThumbnail = new ImageView(this);
-            Bitmap b = BitmapFactory.decodeByteArray(
-                    getIntent().getByteArrayExtra("byteArray"),0,getIntent().getByteArrayExtra("byteArray").length);
-            previewThumbnail.setImageBitmap(b);
-        }
         Button n0 = findViewById(R.id.btn_zero);
         Button n1 = findViewById(R.id.btn_one);
         Button n2 = findViewById(R.id.btn_two);
@@ -197,6 +192,13 @@ public class MainActivity extends AppCompatActivity {
         clear.setOnClickListener(calculatorListener);
     }
 
+//    public void startActivityForResult() {
+//        if (bmp != null) {
+//            Bundle extras = getIntent().getExtras();
+//            Bitmap bmp = extras.getByteArray("image");
+//            imageView.setImageBitmap(bmp);
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -210,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Intent intentNotes = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intentNotes);
+            startActivityForResult(intentNotes, REQUEST_PIC);
             Toast.makeText(MainActivity.this, R.string.setActivity, Toast.LENGTH_LONG).show();
             return true;
 
@@ -218,4 +221,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_IMAGE && requestCode == RESULT_OK && null != data) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                Bitmap pic = extras.getParcelable("data");
+                imageView.setImageBitmap(pic);
+            }
+        }
+    }
 }
+
+
+

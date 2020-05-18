@@ -1,6 +1,7 @@
 package com.example.task312;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -29,7 +30,7 @@ import java.io.IOException;
 public class SettingsActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_PERMISSION_READ_STORAGE = 10;
-
+    public static final int RESULT_IMAGE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,19 +89,15 @@ public class SettingsActivity extends AppCompatActivity {
             File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                     String.valueOf(intPic) + ".jpg");
             Bitmap b = BitmapFactory.decodeFile(file.getAbsolutePath());
-
+//            Bundle extras = new Bundle();
+//            extras.putParcelable("image", b);
+//            Intent intent = new Intent();
+//            intent.putExtras(extras);
+//            ByteArrayOutputStream bs = new ByteArrayOutputStream();
+//            b.compress(Bitmap.CompressFormat.PNG, 50, bs);
             Intent i = new Intent(this, MainActivity.class);
-            ByteArrayOutputStream bs = new ByteArrayOutputStream();
-            b.compress(Bitmap.CompressFormat.PNG, 50, bs);
-            i.putExtra("byteArray", bs.toByteArray());
-            startActivity(i);
-            
-//            view.buildDrawingCache();
-//            b = view.getDrawingCache();
             viewSet.setImageBitmap(b);
-//            intentNotes = new Intent(SettingsActivity.this, MainActivity.class);
-//            intentNotes.putExtra("BitImg", b);
-//            startActivity(intentNotes);
+            startActivityForResult(i, RESULT_IMAGE);
             Toast.makeText(this, file.getAbsolutePath(), Toast.LENGTH_LONG).show();
         }
     }
@@ -113,7 +110,6 @@ public class SettingsActivity extends AppCompatActivity {
         }
         return false;
     }
-
 
 
 }
