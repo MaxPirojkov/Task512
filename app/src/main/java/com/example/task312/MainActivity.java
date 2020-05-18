@@ -14,10 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-
-import static com.example.task312.SettingsActivity.RESULT_IMAGE;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         final TextView screen = findViewById(R.id.textViewNumb);
         imageView = findViewById(R.id.imageView);
 
-//        startActivityForResult();
 
         Button n0 = findViewById(R.id.btn_zero);
         Button n1 = findViewById(R.id.btn_one);
@@ -192,13 +187,11 @@ public class MainActivity extends AppCompatActivity {
         clear.setOnClickListener(calculatorListener);
     }
 
-//    public void startActivityForResult() {
-//        if (bmp != null) {
-//            Bundle extras = getIntent().getExtras();
-//            Bitmap bmp = extras.getByteArray("image");
-//            imageView.setImageBitmap(bmp);
-//        }
-//    }
+    public void startActivityForResult() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -208,11 +201,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        startActivityForResult();
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Intent intentNotes = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(intentNotes);
-            startActivityForResult(intentNotes, REQUEST_PIC);
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivityForResult(intent, REQUEST_PIC);
             Toast.makeText(MainActivity.this, R.string.setActivity, Toast.LENGTH_LONG).show();
             return true;
 
@@ -224,15 +217,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_IMAGE && requestCode == RESULT_OK && null != data) {
-            Bundle extras = data.getExtras();
-            if (extras != null) {
-                Bitmap pic = extras.getParcelable("data");
-                imageView.setImageBitmap(pic);
-            }
+        if (data != null && resultCode == RESULT_OK && requestCode == 1) {
+            data.getStringExtra("key");
         }
     }
 }
+
 
 
 

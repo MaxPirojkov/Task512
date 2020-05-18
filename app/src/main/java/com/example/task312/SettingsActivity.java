@@ -89,15 +89,15 @@ public class SettingsActivity extends AppCompatActivity {
             File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                     String.valueOf(intPic) + ".jpg");
             Bitmap b = BitmapFactory.decodeFile(file.getAbsolutePath());
-//            Bundle extras = new Bundle();
-//            extras.putParcelable("image", b);
-//            Intent intent = new Intent();
+            Bundle extras = new Bundle();
+            extras.putParcelable("image", b);
+            Intent intent = new Intent();
+            intent.putExtra("key", "test");
+            setResult(RESULT_OK, intent);
+            finish();
 //            intent.putExtras(extras);
-//            ByteArrayOutputStream bs = new ByteArrayOutputStream();
-//            b.compress(Bitmap.CompressFormat.PNG, 50, bs);
-            Intent i = new Intent(this, MainActivity.class);
-            viewSet.setImageBitmap(b);
-            startActivityForResult(i, RESULT_IMAGE);
+//            Intent i = new Intent(this, MainActivity.class);
+//            startActivityForResult(i, RESULT_IMAGE);
             Toast.makeText(this, file.getAbsolutePath(), Toast.LENGTH_LONG).show();
         }
     }
