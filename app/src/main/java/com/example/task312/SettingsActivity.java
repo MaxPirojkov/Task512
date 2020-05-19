@@ -16,21 +16,26 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import static com.example.task312.MainActivity.REQUEST_PIC;
 
 public class SettingsActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_PERMISSION_READ_STORAGE = 10;
-    public static final int RESULT_IMAGE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,16 +94,11 @@ public class SettingsActivity extends AppCompatActivity {
             File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                     String.valueOf(intPic) + ".jpg");
             Bitmap b = BitmapFactory.decodeFile(file.getAbsolutePath());
-            Bundle extras = new Bundle();
-            extras.putParcelable("image", b);
+            Log.d("log", String.format("bitmap size = %sx%s, byteCount = %s", b.getWidth(), b.getHeight(), (int) (b.getByteCount() / 1024)));
             Intent intent = new Intent();
-            intent.putExtra("key", "test");
+            intent.putExtra("data", b);
             setResult(RESULT_OK, intent);
             finish();
-//            intent.putExtras(extras);
-//            Intent i = new Intent(this, MainActivity.class);
-//            startActivityForResult(i, RESULT_IMAGE);
-            Toast.makeText(this, file.getAbsolutePath(), Toast.LENGTH_LONG).show();
         }
     }
 

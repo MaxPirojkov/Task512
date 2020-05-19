@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     boolean add, sub, mul, div, percnt;
     float res1, res2;
 
-    final int REQUEST_PIC = 1;
+    public static final int REQUEST_PIC = 1;
     public int res;
     Bitmap bmp;
 
@@ -32,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final TextView screen = findViewById(R.id.textViewNumb);
         imageView = findViewById(R.id.imageView);
-
 
         Button n0 = findViewById(R.id.btn_zero);
         Button n1 = findViewById(R.id.btn_one);
@@ -187,11 +188,6 @@ public class MainActivity extends AppCompatActivity {
         clear.setOnClickListener(calculatorListener);
     }
 
-    public void startActivityForResult() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivityForResult(intent, 1);
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -201,14 +197,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        startActivityForResult();
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivityForResult(intent, REQUEST_PIC);
             Toast.makeText(MainActivity.this, R.string.setActivity, Toast.LENGTH_LONG).show();
             return true;
-
         }
         return super.onOptionsItemSelected(item);
 
@@ -217,11 +211,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data != null && resultCode == RESULT_OK && requestCode == 1) {
-            data.getStringExtra("key");
+        if (requestCode == REQUEST_PIC && requestCode == RESULT_OK && null != data) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                Bitmap pic = extras.getParcelable("data");
+                imageView.setImageBitmap(pic);
+            }
         }
     }
 }
+
 
 
 
