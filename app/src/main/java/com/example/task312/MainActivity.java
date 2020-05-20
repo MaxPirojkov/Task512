@@ -209,17 +209,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_PIC && requestCode == RESULT_OK && null != data) {
-            Bundle extras = data.getExtras();
-            if (extras != null) {
-                Bitmap pic = extras.getParcelable("data");
-                imageView.setImageBitmap(pic);
-            }
+        if (requestCode == REQUEST_PIC) {
+            String pic = data.getStringExtra("data");
+            Bitmap bm = BitmapFactory.decodeFile(pic);
+            imageView.setImageBitmap(bm);
         }
     }
 }
+
 
 
 

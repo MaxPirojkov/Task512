@@ -1,36 +1,21 @@
 package com.example.task312;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import static com.example.task312.MainActivity.REQUEST_PIC;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -76,9 +61,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    private void LoadImg() {
-
-        ImageView viewSet = findViewById(R.id.imageViewSet);
+    private void LoadImg()  {
         if (isExternalStorageWritable()) {
             File logFile = new File(getApplicationContext().getExternalFilesDir(null), "log.txt");
             try {
@@ -93,10 +76,14 @@ public class SettingsActivity extends AppCompatActivity {
             int intPic = Integer.parseInt(strText);
             File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                     String.valueOf(intPic) + ".jpg");
-            Bitmap b = BitmapFactory.decodeFile(file.getAbsolutePath());
-            Log.d("log", String.format("bitmap size = %sx%s, byteCount = %s", b.getWidth(), b.getHeight(), (int) (b.getByteCount() / 1024)));
+            String pic = null;
+            try {
+                pic = file.getCanonicalPath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             Intent intent = new Intent();
-            intent.putExtra("data", b);
+            intent.putExtra("data", pic);
             setResult(RESULT_OK, intent);
             finish();
         }
